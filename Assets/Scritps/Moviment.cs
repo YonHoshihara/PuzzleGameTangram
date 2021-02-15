@@ -11,6 +11,7 @@ public class Moviment : MonoBehaviour
     Vector3 end_position;
     Vector3 direction;
     Rigidbody2D rigidbdy;
+    private PolygonCollider2D collider;
     bool is_moving;
     float distance;
     [HideInInspector]
@@ -28,6 +29,7 @@ public class Moviment : MonoBehaviour
      rigidbdy = transform.root.GetComponent<Rigidbody2D>();
      rigidbdy.gravityScale = 1;
      Physics.IgnoreLayerCollision(8, 8);
+        collider = GetComponent<PolygonCollider2D>(); 
      
     }
 
@@ -56,8 +58,10 @@ public class Moviment : MonoBehaviour
         if(!is_moving && !is_conected ){
             distance = Vector2.Distance(transform.root.position, conector.position);
             if(distance< min_conector_distance){
+                collider.isTrigger = true;
                 rigidbdy.gravityScale = 0;
                 rigidbdy.velocity = Vector2.zero;
+                rigidbdy.isKinematic = false;
                 transform.root.position = Vector2.MoveTowards(transform.root.position, conector.position,0.2f);    
             }
             
